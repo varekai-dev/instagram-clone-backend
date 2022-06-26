@@ -9,4 +9,13 @@ export class AuthDto {
 	})
 	@IsString()
 	password: string
+
+	@MinLength(6, {
+		message: 'Username must be at least 4 characters',
+	})
+	@IsString()
+	userName: string
+
+	@IsString()
+	fullName: string
 }

@@ -16,7 +16,7 @@ export class AuthService {
 		private readonly jwtService: JwtService
 	) {}
 
-	async login({ email, password }: AuthDto) {
+	async login({ email, password }: Pick<AuthDto, 'email' | 'password'>) {
 		const user = await this.validateUser(email, password)
 
 		const tokens = await this.issueTokenPair(String(user._id))
@@ -50,12 +50,14 @@ export class AuthService {
 		}
 	}
 
-	async register({ email, password }: AuthDto) {
+	async register({ email, password, userName, fullName }: AuthDto) {
 		const salt = await genSalt(10)
 		const userExist = await this.UserModel.findOne({ email })
 		if (userExist) throw new UnauthorizedException('User already exists')
 		const newUser = new this.UserModel({
 			email,
+			userName,
+			fullName,
 			password: await hash(password, salt),
 		})
 		const user = await newUser.save()
@@ -124,6 +126,8 @@ export class AuthService {
 		return {
 			_id: user._id,
 			email: user.email,
+			username: user.userName,
+			avatarPath: user.avatarPath,
 		}
 	}
 }

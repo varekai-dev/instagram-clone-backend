@@ -9,6 +9,8 @@ import { UserModule } from './user/user.module'
 import { FileModule } from './file/file.module'
 import { CloudinaryModule } from './cloudinary/cloudinary.module'
 import { FacebookStrategy } from './auth/strategies/facebook.strategy'
+import { PostModule } from './post/post.module';
+import { CommentModule } from './comment/comment.module';
 @Module({
 	imports: [
 		TypegooseModule.forRootAsync({
@@ -21,6 +23,8 @@ import { FacebookStrategy } from './auth/strategies/facebook.strategy'
 		FileModule,
 		ConfigModule,
 		CloudinaryModule,
+		PostModule,
+		CommentModule,
 	],
 	controllers: [AppController],
 	providers: [AppService, FacebookStrategy],

@@ -14,9 +14,9 @@ export class UserModel extends TimeStamps {
 	fullName: string
 
 	@prop({ unique: true })
-	username: string
+	userName: string
 
-	@prop()
+	@prop({ default: null })
 	avatarPath: string
 
 	@prop({ default: false })
