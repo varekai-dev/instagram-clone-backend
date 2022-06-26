@@ -1,4 +1,4 @@
-import { Body, Get, HttpCode, Put } from '@nestjs/common'
+import { Body, Get, HttpCode, Put, Query } from '@nestjs/common'
 import { Controller } from '@nestjs/common'
 import { Auth } from 'src/auth/decorators/auth.decorator'
 import { UserService } from './user.service'
@@ -8,7 +8,7 @@ import { UsePipes } from '@nestjs/common'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { Types } from 'mongoose'
 
-@Controller('user')
+@Controller('users')
 export class UserController {
 	constructor(private readonly userService: UserService) {}
 
@@ -16,6 +16,11 @@ export class UserController {
 	@Auth()
 	async getProfile(@User('_id') _id: string) {
 		return this.userService.byId(_id)
+	}
+
+	@Get('find')
+	async findUsers(@Query('searchTerm') searchTerm?: string) {
+		return this.userService.findUser(searchTerm)
 	}
 
 	@UsePipes(new ValidationPipe())

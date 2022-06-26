@@ -5,6 +5,8 @@ import {
 	Post,
 	HttpCode,
 	ValidationPipe,
+	Param,
+	Delete,
 } from '@nestjs/common'
 import { PostService } from './post.service'
 import { UsePipes } from '@nestjs/common'
@@ -27,5 +29,13 @@ export class PostController {
 	@Auth()
 	async makePost(@User('_id') _id: string, @Body() dto: PostDto) {
 		return this.postService.makePost(_id, dto)
+	}
+
+	@UsePipes(new ValidationPipe())
+	@Delete(':postId')
+	@HttpCode(200)
+	@Auth()
+	async deletePost(@Param('postId') postId: string, @User('_id') _id: string) {
+		return this.postService.deletePost(postId, _id)
 	}
 }

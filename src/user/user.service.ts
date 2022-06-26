@@ -11,6 +11,20 @@ export class UserService {
 		@InjectModel(UserModel) private readonly UserModel: ModelType<UserModel>
 	) {}
 
+	async findUser(searchTerm?: string) {
+		const params = searchTerm
+			? {
+					$or: [
+						{ fullName: { $regex: searchTerm, $options: 'i' } },
+						{ userName: { $regex: searchTerm, $options: 'i' } },
+						{ email: { $regex: searchTerm, $options: 'i' } },
+					],
+			  }
+			: {}
+		const users = await this.UserModel.find(params).exec()
+		return users
+	}
+
 	async byId(id: string): Promise<DocumentType<UserModel>> {
 		const user = await this.UserModel.findById(id).exec()
 

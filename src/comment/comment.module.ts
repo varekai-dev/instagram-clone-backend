@@ -3,6 +3,7 @@ import { CommentService } from './comment.service'
 import { CommentController } from './comment.controller'
 import { TypegooseModule } from 'nestjs-typegoose'
 import { CommentModel } from './comment.model'
+import { PostModule } from 'src/post/post.module'
 
 @Module({
 	imports: [
@@ -14,8 +15,10 @@ import { CommentModel } from './comment.model'
 				},
 			},
 		]),
+		PostModule,
 	],
 	controllers: [CommentController],
 	providers: [CommentService],
+	exports: [CommentService],
 })
 export class CommentModule {}
